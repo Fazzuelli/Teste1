@@ -8,12 +8,15 @@ from keys import keys
 from openai import OpenAI
 from commands.perguntas import perguntas_respostas
 import commands.perguntas as perguntas
+from commands.ranking import registrar_comandos_ranking
+from commands.dado import registrar_comando_dado
+from commands.soma import registrar_comando_soma
+from commands.jogo import registrar_comando_jogo
 
 TOKEN_DISCORD = keys.get("token")
-listModels = []
 
 # Arquivo de ranking
-ranking_file = "ranking.json"
+ranking_file = "commands/ranking.json"
 
 def carregar_ranking():
     if os.path.exists(ranking_file):
@@ -26,7 +29,7 @@ def salvar_ranking(ranking):
         json.dump(ranking, f, indent=4)
 
  # Arquivo de dados do dado
-dados_dado_file = "dados_maximos.json"
+dados_dado_file = "commands/dados_maximos.json"
 
 def carregar_dados_dado():
     if os.path.exists(dados_dado_file):
@@ -38,15 +41,19 @@ def salvar_dados_dado(dados):
     with open(dados_dado_file, "w", encoding="utf-8") as f:
         json.dump(dados, f, indent=4)
 
-
-
 class MeuPrimeiroBot(discord.Client):
     def __init__(self):
         intents = discord.Intents.all()
         super().__init__(intents=intents)
         self.tree = app_commands.CommandTree(self)
+        
 
     async def setup_hook(self):
+        registrar_comandos_ranking(self.tree)
+        registrar_comandos_ranking(self.tree)
+        registrar_comando_dado(self.tree)
+        registrar_comando_soma(self.tree)
+        registrar_comando_jogo(self.tree, self)
         await self.tree.sync()
 
     async def on_ready(self):
@@ -117,65 +124,6 @@ async def jogo_de_perguntas(interaction: discord.Interaction):
             await interaction.followup.send(f"❌ Resposta errada, {interaction.user.mention}! A resposta certa era: **{resposta.capitalize()}**.")
     except:
         await interaction.followup.send(f"⏰ {interaction.user.mention}, você não respondeu a tempo!")
-
-# Comando: /ranking
-@bot.tree.command(name="ranking", description="Mostra o ranking dos jogadores com mais acertos")
-async def ranking(interaction: discord.Interaction):
-    ranking = carregar_ranking()
-
-    if not ranking:
-        await interaction.response.send_message("📊 Ainda não há jogadores no ranking.")
-        return
-
-    ranking_ordenado = sorted(ranking.items(), key=lambda item: item[1]["pontos"], reverse=True)
-
-    mensagem = "🏆 **Ranking dos melhores jogadores:**\n\n"
-    for i, (user_id, dados) in enumerate(ranking_ordenado[:5], start=1):
-        mensagem += f"{i}. **{dados['nome']}** – {dados['pontos']} ponto(s)\n"
-
-    await interaction.response.send_message(mensagem)
-
-# Comando: /ranking-dados
-@bot.tree.command(name="ranking-dados", description="Mostra quem já tirou os maiores valores no dado")
-async def ranking_dados(interaction: discord.Interaction):
-    dados = carregar_dados_dado()
-
-    if not dados:
-        await interaction.response.send_message("📊 Ainda não há dados registrados de rolagens.")
-        return
-
-    dados_ordenados = sorted(dados.items(), key=lambda item: item[1]["maior_valor"], reverse=True)
-
-    mensagem = "🎯 **Maiores valores já tirados no dado:**\n\n"
-    for i, (user_id, info) in enumerate(dados_ordenados[:5], start=1):
-        mensagem += f"{i}. **{info['nome']}** – {info['maior_valor']}\n"
-
-    await interaction.response.send_message(mensagem)
-
-
-import google.generativeai as genai
-
-# Configurar a API do Gemini
-genai.configure(api_key=keys.get("gemini_api_key"))  # Supondo que você salvou no arquivo keys.py
-
-@bot.tree.command(name="pergunte", description="Pergunte algo para a IA do Google Gemini")
-@app_commands.describe(pergunta="Sua pergunta para a IA")
-async def pergunte(interaction: discord.Interaction, pergunta: str):
-    await interaction.response.defer()
-
-    try:
-        model = genai.GenerativeModel("gemini-pro")
-        response = model.generate_content(pergunta)
-        texto = response.text.strip()
-
-        if not texto:
-            texto = "🤖 A IA não conseguiu gerar uma resposta útil para isso."
-
-        await interaction.followup.send(f"🤖 {texto}")
-
-    except Exception as e:
-        print("Erro ao consultar Gemini:", e)
-        await interaction.followup.send("❌ Erro ao consultar o Gemini. Verifique sua chave ou limite de uso.")
 
 
 

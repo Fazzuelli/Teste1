@@ -1,0 +1,77 @@
+{
+    "perguntas_respostas": [
+        {
+            "pergunta": "Qual é a capital da França?",
+            "resposta": "Paris"
+        },
+        {
+            "pergunta": "Quem escreveu 'Dom Casmurro'?",
+            "resposta": "Machado de Assis"
+        },
+            {
+                "pergunta": "Qual é o maior planeta do sistema solar?",
+                "resposta": "Júpiter"
+            },
+            {
+                "pergunta": "Qual é a fórmula da água?",
+                "resposta": "H2O"
+            },
+            {
+                "pergunta": "Quem pintou a Mona Lisa?",
+                "resposta": "Leonardo da Vinci"
+            },
+            {
+                "pergunta": "Qual é a capital do Brasil?",
+                "resposta": "Brasília"
+            },
+            {
+                "pergunta": "Quem descobriu o Brasil?",
+                "resposta": "Pedro Álvares Cabral"
+            },
+            {
+                "pergunta": "Qual é a língua oficial do Japão?",
+                "resposta": "Japonês"
+            },
+            {
+                "pergunta": "Quem foi o primeiro presidente dos Estados Unidos?",
+                "resposta": "George Washington"
+            },
+            {
+                "pergunta": "Qual é o elemento químico com símbolo 'O'?",
+                "resposta": "Oxigênio"
+            },
+            {
+                "pergunta": "Quem escreveu 'A Divina Comédia'?",
+                "resposta": "Dante Alighieri"
+            },
+            {
+                "pergunta": "Qual é o continente mais populoso?",
+                "resposta": "Ásia"
+            },
+            {
+                "pergunta": "Quem foi o autor de '1984'?",
+                "resposta": "George Orwell"
+            },
+            {
+                "pergunta": "Qual é a capital da Itália?",
+                "resposta": "Roma"
+            },
+            {
+                "pergunta": "Quem foi o cientista que desenvolveu a teoria da relatividade?",
+                "resposta": "Albert Einstein"
+            },
+            {
+                "pergunta": "Qual é o maior oceano do mundo?",
+                "resposta": "Oceano Pacífico"
+            },
+            {
+                "pergunta": "Quem foi o primeiro homem a pisar na Lua?",
+                "resposta": "Neil Armstrong"
+            },
+            {
+                "pergunta": "Qual é a capital da Espanha?",
+                "resposta": "Madri"
+            }
+        ]
+    }
+    
